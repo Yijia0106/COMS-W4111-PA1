@@ -2,9 +2,8 @@ import os
 from flask import Flask, request, render_template, g, redirect, Response
 import db
 
-
 app = Flask(__name__)
-# engine = db.getEngine()
+engine = db.getEngine()
 
 # data below is for test purpose and is related to result() func
 max_score = 100
@@ -23,6 +22,27 @@ def index():
     return render_template("index.html", name="Yaochen Shen")
 
 
+@app.route('/submitAvailabilityRequest', methods=['POST'])
+def submitAvailabilityRequest():
+    return "你是猪"
+
+
+# test purpose function
+@app.route('/database')
+def db():
+    cursor = g.conn.execute("SELECT * FROM customers")
+    users = []
+    for entry in cursor:
+        user = dict()
+        user['name'] = entry[1]
+        user['email'] = entry[2]
+        user['number'] = entry[3]
+        users.append(user)
+    cursor.close()
+    context = dict(users=users)
+    return render_template("random/users.html", **context)
+
+
 # test purpose function
 @app.route("/results")
 def result():
@@ -35,21 +55,21 @@ def result():
     return render_template("random/results.html", **context)
 
 
-# @app.before_request
-# def before_request():
-#     try:
-#         g.conn = engine.connect()
-#     except:
-#         print("uh oh, problem connecting to database")
-#         g.conn = None
-#
-#
-# @app.teardown_request
-# def teardown_request(exception):
-#     try:
-#         g.conn.close()
-#     except:
-#         pass
+@app.before_request
+def before_request():
+    try:
+        g.conn = engine.connect()
+    except:
+        print("uh oh, problem connecting to database")
+        g.conn = None
+
+
+@app.teardown_request
+def teardown_request(exception):
+    try:
+        g.conn.close()
+    except:
+        pass
 
 
 if __name__ == "__main__":
