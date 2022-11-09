@@ -3,16 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <title>Hello {{ name }}</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script>
+      $( function() {
+        $( "#fromDate" ).datepicker();
+      } );
+       $( function() {
+        $( "#toDate" ).datepicker();
+      } );
+        function validateFormFirst() {
+            var x = document.forms["first"]["byName"].value;
+            if (x == "" || x == null) {
+                alert("The show name must be filled out!");
+                return false;
+            }
+    };
+        function validateFormSecond() {
+           var from_date = document.forms["second"]["fromDate"].value;
+           var to_date = document.forms["second"]["toDate"].value;
+           if (from_date == "" || from_date == null || to_date == "" || to_date == null) {
+                  alert("Both from date and to date must be filled out!");
+                  return false;
+           }
+           if (from_date>to_date){
+                alert("From date cannot be later than to date!");
+                return false;
+           }
+    };
+    </script>
 </head>
 <body>
-    <h1> Welcome home, {{ name }}!</h1>
+    <h1 style="text-align:center"> Welcome home, {{ name }}!</h1>
 
-    <form action="/submitAvailabilityRequest" method="POST">
-      <label for="fname">First name:</label>
-      <input type="text" id="fname" name="fname"><br><br>
-      <label for="lname">Last name:</label>
-      <input type="text" id="lname" name="lname"><br><br>
-      <input type="submit" value="Submit">
+    <form name="first" action="/submitAvailabilityRequestByName" method="POST" onsubmit="return validateFormFirst()">
+      <input type="text" name="byName" id="byName" placeholder="Search by Name"><input type="submit" value="Submit">
     </form>
+
+    <p>Or</p>
+
+    <form name="second" action="/submitAvailabilityRequestByDate" method="POST" onsubmit="return validateFormSecond()">
+        <input type="text" name="fromDate" id="fromDate" placeholder="From">
+        <input type="text" name="toDate" id="toDate" placeholder="To">
+        <input type="submit" value="Submit">
+    </form>
+
+
+    <p><a href="/allShows">Browse all shows</a></p>
+    <p><a href="/prevOrders">Find your previous orders</a></p>
 </body>
 </html>

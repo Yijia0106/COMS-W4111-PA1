@@ -22,9 +22,37 @@ def index():
     return render_template("index.html", name="Yaochen Shen")
 
 
-@app.route('/submitAvailabilityRequest', methods=['POST'])
-def submitAvailabilityRequest():
-    return "你是猪"
+@app.route('/submitAvailabilityRequestByName', methods=['POST'])
+def submitAvailabilityRequestByName():
+    name = request.form.get('byName')
+    return str(name)
+
+
+@app.route('/submitAvailabilityRequestByDate', methods=['POST'])
+def submitAvailabilityRequestByDate():
+    if request.method == "POST":
+        from_date = request.form.get('fromDate')
+        to_date = request.form.get('toDate')
+        return f'{from_date} should be earlier than {to_date}'
+
+
+@app.route('/allShows', methods=['GET'])
+def allShows():
+    cursor = g.conn.execute("SELECT * FROM shows")
+    shows = []
+    for entry in cursor:
+        show = dict()
+        show['name'] = entry[1]
+        show['description'] = entry[2]
+        shows.append(show)
+
+    cursor.close()
+    context = dict(shows=shows)
+    return render_template("all-shows-info/showInfoResults.html", **context)
+
+
+# @app.route('/prevOrders', methods=['GET'])
+# def prevOrders():
 
 
 # test purpose function
