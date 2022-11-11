@@ -25,7 +25,26 @@ def index():
 @app.route('/submitAvailabilityRequestByName', methods=['POST'])
 def submitAvailabilityRequestByName():
     name = request.form.get('byName')
-    return str(name)
+    cursor = g.conn.execute("SELECT name, row, seat, section, theatre_name as Theatre, cdate as Date, ctime as Time, price FROM (AvailableOn a inner join Calendars cal ON a.cid = cal.cid) temp1 inner join (Select location_id, theatre_name, l.row_id as row, l.seat_id as seat, l.section, name From Locations l Left join (SELECT * FROM shows WHERE name ='{name1}') s on l.sid = s.sid) temp2 ON temp1.location_id = temp2.location_id WHERE order_number is Null and temp2.name ='{name1}'".format(name1=name))
+    shows = []
+    for entry in cursor:
+        print(entry)
+
+        show = dict()
+        show['name'] = entry[0]
+        show['row'] = entry[1]
+        show['seat'] = entry[2]
+        show['section'] = entry[3]
+        show['theatre'] = entry[4]
+        show['date'] = entry[5]
+        show['time'] = entry[6]
+        show['price'] = entry[7]
+        shows.append(show)
+
+    cursor.close()
+    context = dict(shows=shows)
+    return render_template("find-tickets-process/availability.html", **context)
+    # return str(shows)
 
 
 @app.route('/submitAvailabilityRequestByDate', methods=['POST'])
@@ -33,8 +52,44 @@ def submitAvailabilityRequestByDate():
     if request.method == "POST":
         from_date = request.form.get('fromDate')
         to_date = request.form.get('toDate')
-        return f'{from_date} should be earlier than {to_date}'
+        shows = []
+        cursor = g.conn.execute("Select name as Show, row, seat, section, theatre_name as Theatre, cdate as Date, ctime as Time, price,  temp1.location_id, temp2.sid, temp1.ccid From (AvailableOn a inner join (Select cid as ccid, cdate, ctime From Calendars c Where c.cdate between CAST('{from_date}' AS DATE) and CAST('{to_date}' AS DATE)) cal on a.cid = cal.ccid) temp1 Left join (Select location_id, theatre_name, l.row_id as row, l.seat_id as seat, l.section, name, s.sid From Locations l Left join Shows s on l.sid = s.sid) temp2 on temp1.location_id = temp2.location_id Where order_number is Null".format(from_date=from_date, to_date=to_date))
+        for entry in cursor:
+            print(entry)
 
+            show = dict()
+            show['name'] = entry[0]
+            show['row'] = entry[1]
+            show['seat'] = entry[2]
+            show['section'] = entry[3]
+            show['theatre'] = entry[4]
+            show['date'] = entry[5]
+            show['time'] = entry[6]
+            show['price'] = entry[7]
+
+            show['id'] = str(entry[8]) + "," + str(entry[9]) + "," + str(entry[10])
+
+            shows.append(show)
+
+        cursor.close()
+        context = dict(shows=shows)
+        return render_template("find-tickets-process/availability.html", **context)
+        # return f'{from_date} should be earlier than {to_date}'
+
+@app.route('/fillPaymentInfo', methods=['POST'])
+def fillPaymentInfo():
+    chkbox_values = request.form.getlist('chkbox')
+    c_name = request.form.get('cName')
+    c_email = request.form.get('cEmail')
+    c_phone = request.form.get('cPhone')
+
+    print(c_name)
+    print(c_email)
+    print(c_phone)
+    # g.conn.execute("INSERT INTO test(name) VALUES (:c_name), (:c_email), (:c_phone)", name1=name, name2=name);
+    context = dict(shows=chkbox_values)
+    return render_template("find-tickets-process/paymentInfo.html", **context)
+    # return "HI"
 
 @app.route('/allShows', methods=['GET'])
 def allShows():
@@ -124,7 +179,7 @@ if __name__ == "__main__":
 
         HOST, PORT = host, port
         print("running on %s:%d" % (HOST, PORT))
-        app.run(host=HOST, port=PORT, debug=debug, threaded=threaded)
+        app.run(host=HOST, port=PORT, debug=True, threaded=threaded)
 
 
     run()

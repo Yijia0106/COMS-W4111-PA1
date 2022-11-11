@@ -5,6 +5,33 @@
     <title>Available shows and seats</title>
 </head>
 <body>
+    <h1 style="text-align:center">Available Shows and Seats</h1><br>
+
+      <dl>
+        <dt style="text-align:center">
+            <form name="first" action="/fillPaymentInfo" method="POST">
+                 {% for show in shows %}
+                    <input type="checkbox" name="chkbox" value={{show.id}}>
+                    <label> Name: {{ show.name }}, Row: {{ show.row }},  Seat: {{ show.seat }},  Section: {{ show.section }},  Theatre: {{ show.theatre }},  Date: {{ show.date }},  Time: {{ show.time }},  Price: ${{ show.price }}</label><br>
+                 {% endfor %}
+                <br>
+                <input type="text" name="cName" id="cName" placeholder="Customer Name">
+                <input type="text" name="cEmail" id="cEmail" placeholder="Customer Email">
+                <input type="text" name="cPhone" id="cPhone" placeholder="Customer Phone">
+                <br>
+                <br>
+                <input type="submit" value="Submit">
+            </form>
+        </dt>
+      </dl>
+
+
+
+    <form style="text-align:center">
+     <input type="button" value="Return" onclick="history.back()">
+    </form>
+
+
 
 </body>
 </html>

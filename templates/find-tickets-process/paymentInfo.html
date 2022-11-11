@@ -5,6 +5,20 @@
     <title>Payment information</title>
 </head>
 <body>
-
+    <h1 style="text-align:center">Payment Information</h1><br>
+    <ul>
+      {% for show in shows %}
+        <li>
+          <em>{{ show }}</em>
+        </li><br>
+      {% endfor %}
+    </ul>
+    <form style="text-align:center">
+     <input type="button" value="Submit" onclick="history.back()">
+    </form>
+    <br>
+    <form style="text-align:center">
+     <input type="button" value="Return" onclick="history.back()">
+    </form>
 </body>
 </html>
