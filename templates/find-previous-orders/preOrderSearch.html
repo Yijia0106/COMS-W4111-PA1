@@ -3,8 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Search for your previous orders</title>
+    <script>
+        function validateFormFirst() {
+            var x = document.forms["first"]["ByOrderNumber"].value;
+            if (x == "" || x == null) {
+                alert("The order number cannot be empty!");
+                return false;
+            }
+    };
+        function validateFormSecond() {
+           var x = document.forms["second"]["ByEmail"].value;
+           if (x == "" || x == null) {
+                  alert("Your email cannot be empty!");
+                  return false;
+           }
+    };
+    </script>
 </head>
 <body>
+        <form name="first" action="/findByOrderNumber" method="POST" onsubmit="return validateFormFirst()">
+          <input type="text" name="ByOrderNumber" id="ByOrderNumber" placeholder="Your order number is"><input type="submit" value="Confirm">
+        </form>
 
+        <p>Or</p>
+
+        <form name="second" action="/findByEmail" method="POST" onsubmit="return validateFormSecond()">
+            <input type="text" name="ByEmail" id="ByEmail" placeholder="Your email is">
+            <input type="submit" value="Confirm">
+        </form>
+
+
+        <input type="button" value="Return" onclick="history.back()">
 </body>
 </html>

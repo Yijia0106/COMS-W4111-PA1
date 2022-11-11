@@ -19,6 +19,7 @@ students = [
     {"name": "Sirius", "score": 75},
 ]
 
+
 # yaoyao
 @app.route('/')
 def index():
@@ -29,6 +30,9 @@ def index():
 def submitAvailabilityRequestByName():
     name = request.form.get('byName')
     cursor = g.conn.execute("SELECT name, row, seat, section, theatre_name as Theatre, cdate as Date, ctime as Time, price, temp1.location_id, temp2.sid, temp1.ccid FROM (AvailableOn a inner join (Select cid as ccid, cdate, ctime From Calendars) cal ON a.cid = cal.ccid) temp1 inner join (Select location_id, theatre_name, l.row_id as row, l.seat_id as seat, l.section, name, s.sid From Locations l Left join (SELECT * FROM shows WHERE name ='{name1}') s on l.sid = s.sid) temp2 ON temp1.location_id = temp2.location_id WHERE order_number is Null and temp2.name ='{name1}'".format(name1=name))
+    cursor = g.conn.execute(
+        "SELECT name, row, seat, section, theatre_name as Theatre, cdate as Date, ctime as Time, price FROM (AvailableOn a inner join Calendars cal ON a.cid = cal.cid) temp1 inner join (Select location_id, theatre_name, l.row_id as row, l.seat_id as seat, l.section, name From Locations l Left join (SELECT * FROM shows WHERE name ='{name1}') s on l.sid = s.sid) temp2 ON temp1.location_id = temp2.location_id WHERE order_number is Null and temp2.name ='{name1}'".format(
+            name1=name))
     shows = []
     for entry in cursor:
         print(entry)
@@ -59,7 +63,9 @@ def submitAvailabilityRequestByDate():
         from_date = request.form.get('fromDate')
         to_date = request.form.get('toDate')
         shows = []
-        cursor = g.conn.execute("Select name as Show, row, seat, section, theatre_name as Theatre, cdate as Date, ctime as Time, price,  temp1.location_id, temp2.sid, temp1.ccid From (AvailableOn a inner join (Select cid as ccid, cdate, ctime From Calendars c Where c.cdate between CAST('{from_date}' AS DATE) and CAST('{to_date}' AS DATE)) cal on a.cid = cal.ccid) temp1 Left join (Select location_id, theatre_name, l.row_id as row, l.seat_id as seat, l.section, name, s.sid From Locations l Left join Shows s on l.sid = s.sid) temp2 on temp1.location_id = temp2.location_id Where order_number is Null".format(from_date=from_date, to_date=to_date))
+        cursor = g.conn.execute(
+            "Select name as Show, row, seat, section, theatre_name as Theatre, cdate as Date, ctime as Time, price,  temp1.location_id, temp2.sid, temp1.ccid From (AvailableOn a inner join (Select cid as ccid, cdate, ctime From Calendars c Where c.cdate between CAST('{from_date}' AS DATE) and CAST('{to_date}' AS DATE)) cal on a.cid = cal.ccid) temp1 Left join (Select location_id, theatre_name, l.row_id as row, l.seat_id as seat, l.section, name, s.sid From Locations l Left join Shows s on l.sid = s.sid) temp2 on temp1.location_id = temp2.location_id Where order_number is Null".format(
+                from_date=from_date, to_date=to_date))
         for entry in cursor:
             print(entry)
 
@@ -81,6 +87,7 @@ def submitAvailabilityRequestByDate():
         context = dict(shows=shows)
         return render_template("find-tickets-process/availability.html", **context)
         # return f'{from_date} should be earlier than {to_date}'
+
 
 @app.route('/fillPaymentInfo', methods=['POST'])
 def fillPaymentInfo():
@@ -126,6 +133,7 @@ def completeOrder():
     return render_template("find-tickets-process/orderComplete.html", **context)
 
 
+
 @app.route('/allShows', methods=['GET'])
 def allShows():
     cursor = g.conn.execute("SELECT * FROM shows")
@@ -141,8 +149,57 @@ def allShows():
     return render_template("all-shows-info/showInfoResults.html", **context)
 
 
-# @app.route('/prevOrders', methods=['GET'])
-# def prevOrders():
+@app.route('/prevOrders', methods=['GET'])
+def prevOrders():
+    return render_template("find-previous-orders/preOrderSearch.html")
+
+
+@app.route('/findByOrderNumber', methods=['POST'])
+def findByOrderNumber():
+    order_number = request.form.get('ByOrderNumber')
+    cursor = g.conn.execute(
+        f"SELECT order_date, order_time, row_id, seat_id, theatre_name, section, cdate, ctime, name, Onum FROM (((SELECT *, o.order_number as Onum FROM orders o LEFT JOIN SubOrders so on o.order_number = so.order_number WHERE o.order_number = {order_number}) AS temp1 LEFT JOIN Locations l on temp1.location_id = l.location_id) temp2 LEFT JOIN Calendars c on temp2.cid = c.cid) temp3 LEFT JOIN Shows s on temp3.sid = s.sid")
+    orders = []
+    for entry in cursor:
+        order = dict()
+        order['o_date'] = entry[0]
+        order['o_time'] = entry[1]
+        order['row'] = entry[2]
+        order['seat'] = entry[3]
+        order['theatre'] = entry[4]
+        order['section'] = entry[5]
+        order['s_date'] = entry[6]
+        order['s_time'] = entry[7]
+        order['show'] = entry[8]
+        order['order_number'] = entry[9]
+        orders.append(order)
+    cursor.close()
+    context = dict(orders=orders)
+    return render_template("find-previous-orders/preOrderResults.html", **context)
+
+
+@app.route('/findByEmail', methods=['POST'])
+def findByByEmail():
+    email = request.form.get('ByEmail')
+    cursor = g.conn.execute(
+        f"SELECT order_date, order_time, row_id, seat_id, theatre_name, section, cdate, ctime, name, Onum FROM (((SELECT *, o.order_number as Onum FROM orders o LEFT JOIN SubOrders so on o.order_number = so.order_number) AS temp1 LEFT JOIN Locations l on temp1.location_id = l.location_id) temp2 LEFT JOIN Calendars c on temp2.cid = c.cid) temp3 LEFT JOIN Shows s on temp3.sid = s.sid WHERE o.email = {email}")
+    orders = []
+    for entry in cursor:
+        order = dict()
+        order['o_date'] = entry[0]
+        order['o_time'] = entry[1]
+        order['row'] = entry[2]
+        order['seat'] = entry[3]
+        order['theatre'] = entry[4]
+        order['section'] = entry[5]
+        order['s_date'] = entry[6]
+        order['s_time'] = entry[7]
+        order['show'] = entry[8]
+        order['order_number'] = entry[9]
+        orders.append(order)
+    cursor.close()
+    context = dict(orders=orders)
+    return render_template("find-previous-orders/preOrderResults.html", **context)
 
 
 # test purpose function

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hello {{ name }}</title>
+    <title>Find your favorite broadway shows!</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -36,8 +36,6 @@
     </script>
 </head>
 <body>
-    <h1 style="text-align:center"> Welcome home, {{ name }}!</h1>
-
     <form name="first" action="/submitAvailabilityRequestByName" method="POST" onsubmit="return validateFormFirst()">
       <input type="text" name="byName" id="byName" placeholder="Search by Name"><input type="submit" value="Submit">
     </form>
