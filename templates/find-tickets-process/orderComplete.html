@@ -5,6 +5,22 @@
     <title>Order complete</title>
 </head>
 <body>
+ <h1 style="text-align:center">Order Complete</h1><br>
+
+    <dl>
+        <dt style="text-align:center">
+                 {% for customer in customers %}
+                    <label> Thank you, {{customer.name}}! Your order number is {{customer.order_id}}. </label><br>
+                    <label> The receipt has been sent to {{customer.email}}. </label><br>
+                 {% endfor %}
+
+        </dt>
+      </dl>
+
+    <br>
+    <form style="text-align:center">
+     <input type="button" value="Return" onclick="history.back()">
+    </form>
 
 </body>
 </html>

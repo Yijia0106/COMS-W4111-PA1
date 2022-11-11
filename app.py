@@ -1,4 +1,7 @@
 import os
+import time
+from datetime import date
+
 from flask import Flask, request, render_template, g, redirect, Response
 import db
 
@@ -25,7 +28,7 @@ def index():
 @app.route('/submitAvailabilityRequestByName', methods=['POST'])
 def submitAvailabilityRequestByName():
     name = request.form.get('byName')
-    cursor = g.conn.execute("SELECT name, row, seat, section, theatre_name as Theatre, cdate as Date, ctime as Time, price FROM (AvailableOn a inner join Calendars cal ON a.cid = cal.cid) temp1 inner join (Select location_id, theatre_name, l.row_id as row, l.seat_id as seat, l.section, name From Locations l Left join (SELECT * FROM shows WHERE name ='{name1}') s on l.sid = s.sid) temp2 ON temp1.location_id = temp2.location_id WHERE order_number is Null and temp2.name ='{name1}'".format(name1=name))
+    cursor = g.conn.execute("SELECT name, row, seat, section, theatre_name as Theatre, cdate as Date, ctime as Time, price, temp1.location_id, temp2.sid, temp1.ccid FROM (AvailableOn a inner join (Select cid as ccid, cdate, ctime From Calendars) cal ON a.cid = cal.ccid) temp1 inner join (Select location_id, theatre_name, l.row_id as row, l.seat_id as seat, l.section, name, s.sid From Locations l Left join (SELECT * FROM shows WHERE name ='{name1}') s on l.sid = s.sid) temp2 ON temp1.location_id = temp2.location_id WHERE order_number is Null and temp2.name ='{name1}'".format(name1=name))
     shows = []
     for entry in cursor:
         print(entry)
@@ -39,6 +42,9 @@ def submitAvailabilityRequestByName():
         show['date'] = entry[5]
         show['time'] = entry[6]
         show['price'] = entry[7]
+
+        show['id'] = str(entry[8]) + "," + str(entry[9]) + "," + str(entry[10])
+
         shows.append(show)
 
     cursor.close()
@@ -79,17 +85,46 @@ def submitAvailabilityRequestByDate():
 @app.route('/fillPaymentInfo', methods=['POST'])
 def fillPaymentInfo():
     chkbox_values = request.form.getlist('chkbox')
+    context = dict(shows=chkbox_values)
+    return render_template("find-tickets-process/paymentInfo.html", **context)
+
+@app.route('/completeOrder', methods=['POST'])
+def completeOrder():
+    chkbox_values = request.form.getlist('chkbox')
     c_name = request.form.get('cName')
     c_email = request.form.get('cEmail')
     c_phone = request.form.get('cPhone')
+    c_date = date.today()
+    t = time.localtime()
+    c_time = time.strftime("%H:%M:%S", t)
+    c_discount = request.form.get('discount')
+    c_payment = request.form.getlist('paymentM')
+
+    c_info = []
+    c_info_dict = dict()
+    c_info_dict['name'] = c_name
+    c_info_dict['email'] = c_email
+    c_info_dict['phone'] = c_phone
+    c_info.append(c_info_dict)
 
     print(c_name)
     print(c_email)
     print(c_phone)
+    print(c_date)
+    print(c_time)
+    print(c_discount)
+    print(c_payment)
+
+    # 先get customer id (identify by email + phone)，创建一个order，get order id，创建一个suborder
+    # if already in database -> find the customerId
     # g.conn.execute("INSERT INTO test(name) VALUES (:c_name), (:c_email), (:c_phone)", name1=name, name2=name);
-    context = dict(shows=chkbox_values)
-    return render_template("find-tickets-process/paymentInfo.html", **context)
-    # return "HI"
+    #
+    #
+    order_id = 10
+    c_info_dict['order_id'] = order_id
+    context = dict(customers=c_info)
+    return render_template("find-tickets-process/orderComplete.html", **context)
+
 
 @app.route('/allShows', methods=['GET'])
 def allShows():

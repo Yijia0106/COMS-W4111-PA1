@@ -3,19 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <title>Payment information</title>
+    <script>
+
+        function validateFormFirst() {
+            var name = document.forms["first"]["cName"].value;
+            var email = document.forms["first"]["cEmail"].value;
+            var phone = document.forms["first"]["cPhone"].value;
+
+            if (name == "" || name == null || email == "" || email == null || phone == "" || phone == null) {
+                alert("All fields except Discount and Payment Method must be filled out!");
+                return false;
+            }
+
+            if (!email.includes("@")) {
+                alert("Invalid! Email must include @");
+                return false;
+            }
+
+            if (phone.length > 10) {
+                alert("Invalid! The length of phone number should not be longer than 10");
+                return false;
+            }
+
+        };
+    </script>
 </head>
 <body>
     <h1 style="text-align:center">Payment Information</h1><br>
-    <ul>
-      {% for show in shows %}
-        <li>
-          <em>{{ show }}</em>
-        </li><br>
-      {% endfor %}
-    </ul>
-    <form style="text-align:center">
-     <input type="button" value="Submit" onclick="history.back()">
-    </form>
+
+    <dl>
+        <dt style="text-align:center">
+            <form name="first" action="/completeOrder" method="POST" onsubmit="return validateFormFirst()">
+                <label>Name: </label> <input type="text" name="cName" id="cName" placeholder="Your Name"><br><br>
+                <label>Email: </label> <input type="text" name="cEmail" id="cEmail" placeholder="Your Email"><br><br>
+                <label>Phone: </label> <input type="text" name="cPhone" id="cPhone" placeholder="Your Phone"><br><br>
+                <label>Discount: </label> <input type="text" name="discount" id="discount" placeholder="Discount Code"><br><br>
+                <label>Payment Method: </label>
+                <input type="radio" id="creditC" name="paymentM" value="credit card"><label for="creditC">credit card</label>
+                <input type="radio" id="paypal" name="paymentM" value="paypal"><label for="paypal">paypal</label>
+                <input type="radio" id="appleP" name="paymentM" value="apple pay"><label for="appleP">apple pay</label>
+
+                <br>
+                <br>
+                <input type="submit" value="Submit">
+            </form>
+        </dt>
+      </dl>
+
     <br>
     <form style="text-align:center">
      <input type="button" value="Return" onclick="history.back()">
