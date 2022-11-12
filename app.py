@@ -155,7 +155,7 @@ def prevOrders():
 def findByOrderNumber():
     order_number = request.form.get('ByOrderNumber')
     cursor = g.conn.execute(
-        f"SELECT order_date, order_time, row_id, seat_id, theatre_name, section, cdate, ctime, name, Onum FROM (((SELECT *, o.order_number as Onum FROM orders o LEFT JOIN SubOrders so on o.order_number = so.order_number WHERE o.order_number = {order_number}) AS temp1 LEFT JOIN Locations l on temp1.location_id = l.location_id) temp2 LEFT JOIN Calendars c on temp2.cid = c.cid) temp3 LEFT JOIN Shows s on temp3.sid = s.sid")
+        f"SELECT order_date, order_time, row_id, seat_id, theatre_name, section, cdate, ctime, name, Onum FROM (((SELECT *, o.order_number as Onum FROM orders o LEFT JOIN SubOrders so on o.order_number = so.order_number WHERE o.order_number = {order_number}) AS temp1 INNER JOIN Locations l on temp1.location_id = l.location_id) temp2 INNER JOIN Calendars c on temp2.cid = c.cid) temp3 INNER JOIN Shows s on temp3.sid = s.sid")
     orders = []
     for entry in cursor:
         order = dict()
@@ -179,7 +179,7 @@ def findByOrderNumber():
 def findByByEmail():
     email = request.form.get('ByEmail')
     cursor = g.conn.execute(
-        f"SELECT order_date, order_time, row_id, seat_id, theatre_name, section, cdate, ctime, name, Onum FROM (((SELECT *, o.order_number as Onum FROM orders o LEFT JOIN SubOrders so on o.order_number = so.order_number) AS temp1 LEFT JOIN Locations l on temp1.location_id = l.location_id) temp2 LEFT JOIN Calendars c on temp2.cid = c.cid) temp3 LEFT JOIN Shows s on temp3.sid = s.sid WHERE o.email = {email}")
+        f"SELECT order_date, order_time, row_id, seat_id, theatre_name, section, cdate, ctime, s.name, Onum FROM (SELECT *, Orders.order_number as Onum FROM Orders LEFT JOIN SubOrders on Orders.order_number = SubOrders.order_number) AS TEMP1 INNER JOIN (SELECT * FROM Customers WHERE Customers.email = '{email}') Cust on TEMP1.customerid = Cust.customerid INNER JOIN Locations l on TEMP1.location_id = l.location_id INNER JOIN Calendars c on TEMP1.cid = c.cid LEFT JOIN Shows s on l.sid = s.sid")
     orders = []
     for entry in cursor:
         order = dict()
