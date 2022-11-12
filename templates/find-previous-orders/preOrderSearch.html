@@ -21,6 +21,8 @@
     </script>
 </head>
 <body>
+<div style="width:100%;text-align:center">
+    <h2>We need some basic information to locate your treasure...</h2>
         <form name="first" action="/findByOrderNumber" method="POST" onsubmit="return validateFormFirst()">
           <input type="text" name="ByOrderNumber" id="ByOrderNumber" placeholder="Your order number is"><input type="submit" value="Confirm">
         </form>
@@ -34,5 +36,6 @@
 
 
         <input type="button" value="Return" onclick="history.back()">
+</div>
 </body>
 </html>
