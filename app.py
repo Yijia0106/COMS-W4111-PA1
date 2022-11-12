@@ -2,11 +2,12 @@ import os
 import time
 from datetime import date
 
-from flask import Flask, request, render_template, g, redirect, Response
+from flask import Flask, request, render_template, g, redirect, Response, session
 import db
 
 app = Flask(__name__)
 engine = db.getEngine()
+app.secret_key = 'BROADWAY_SECRET_KEY'
 
 # data below is for test purpose and is related to result() func
 max_score = 100
@@ -89,12 +90,15 @@ def submitAvailabilityRequestByDate():
 @app.route('/fillPaymentInfo', methods=['POST'])
 def fillPaymentInfo():
     chkbox_values = request.form.getlist('chkbox')
+    # print(chkbox_values)
+    session['chkbox_values'] = chkbox_values
     context = dict(shows=chkbox_values)
     return render_template("find-tickets-process/paymentInfo.html", **context)
 
 @app.route('/completeOrder', methods=['POST'])
 def completeOrder():
-    chkbox_values = request.form.getlist('chkbox')
+    chkbox_values = session['chkbox_values']
+    session.pop('chkbox_values', default=None)
     c_name = request.form.get('cName')
     c_email = request.form.get('cEmail')
     c_phone = request.form.get('cPhone')
@@ -111,21 +115,53 @@ def completeOrder():
     c_info_dict['phone'] = c_phone
     c_info.append(c_info_dict)
 
+    print(chkbox_values)
     print(c_name)
     print(c_email)
     print(c_phone)
     print(c_date)
     print(c_time)
     print(c_discount)
-    print(c_payment)
+    if c_payment != []:
+        print(c_payment[0])
 
-    # 先get customer id (identify by email + phone)，创建一个order，get order id，创建一个suborder
-    # if already in database -> find the customerId
-    # g.conn.execute("INSERT INTO test(name) VALUES (:c_name), (:c_email), (:c_phone)", name1=name, name2=name);
-    #
-    #
-    order_id = 10
-    c_info_dict['order_id'] = order_id
+    # get customer id (identify by email + phone) -> create an order --> get order id --> create an suborder
+    cursor = g.conn.execute("SELECT customerId FROM customers WHERE email ='{c_email}' and phone ='{c_phone}'".format(c_email=c_email, c_phone=c_phone))
+    if cursor.rowcount == 0:
+        g.conn.execute("INSERT INTO customers(name, email, phone) VALUES ('{c_name}', '{c_email}', '{c_phone}')".format(c_name=c_name, c_email=c_email, c_phone=c_phone))
+    cursorN = g.conn.execute("SELECT * FROM customers")
+
+    customerId = -1
+    for entry in cursorN:
+        customerId = entry[0]
+
+    print(customerId)
+    if c_payment != [] and c_discount != '':
+        g.conn.execute("INSERT INTO Orders(customerId, discount_code, order_date, order_time, payment_method) VALUES ('{customerId}', '{discount_code}', '{order_date}', '{order_time}', '{payment_method}')".format(customerId=customerId,discount_code=c_discount,order_date=c_date, order_time=c_time, payment_method = c_payment[0]))
+    elif c_payment != [] and c_discount == '':
+        g.conn.execute("INSERT INTO Orders(customerId, order_date, order_time, payment_method) VALUES ('{customerId}', '{order_date}', '{order_time}', '{payment_method}')".format(customerId=customerId,order_date=c_date, order_time=c_time, payment_method = c_payment[0]))
+    elif c_payment == [] and c_discount != '':
+        g.conn.execute("INSERT INTO Orders(customerId, discount_code, order_date, order_time) VALUES ('{customerId}', '{discount_code}', '{order_date}', '{order_time}')".format(customerId=customerId, discount_code=c_discount, order_date=c_date, order_time=c_time))
+    else:
+        g.conn.execute("INSERT INTO Orders(customerId, order_date, order_time) VALUES ('{customerId}', '{order_date}', '{order_time}')".format(customerId=customerId, order_date=c_date, order_time=c_time))
+
+    cursorO = g.conn.execute("SELECT order_number FROM Orders WHERE customerId ='{customerId}' and order_date ='{order_date}' and order_time = '{order_time}'".format(customerId=customerId, order_date=c_date, order_time=c_time))
+    order_number = -1
+    for entry in cursorO:
+        order_number = entry[0]
+    print(order_number)
+
+    for v in chkbox_values:
+        v_list = [int(item) if item.isdigit() else item for item in v.split(',')]
+        cid = v_list[2]
+        location_id = v_list[0]
+        g.conn.execute("INSERT INTO SubOrders(order_number, cid, location_id) VALUES ('{order_number}', '{cid}', '{location_id}')".format(order_number=order_number, cid=cid, location_id=location_id))
+
+    cursorTest = g.conn.execute("SELECT * FROM SubOrders")
+    for entry in cursorTest:
+        print(entry[0])
+
+    c_info_dict['order_id'] = order_number
     context = dict(customers=c_info)
     return render_template("find-tickets-process/orderComplete.html", **context)
 
