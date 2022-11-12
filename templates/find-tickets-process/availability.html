@@ -3,15 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Available shows and seats</title>
+    <script>
+
+        function validateFormFirst() {
+            var inputs = document.getElementsByTagName('input');
+            var flag = false;
+
+            for(var i = 0; i < inputs.length; i++) {
+                if(inputs[i].checked) {
+                    flag = true;
+                }
+            }
+
+            if(!flag){
+                alert("Please choose one or return!");
+                return false;
+            }
+
+        };
+
+    </script>
 </head>
 <body>
     <h1 style="text-align:center">Available Shows and Seats</h1><br>
 
       <dl>
         <dt style="text-align:center">
-            <form name="first" action="/fillPaymentInfo" method="POST">
+            <form name="first" action="/fillPaymentInfo" method="POST" onsubmit="return validateFormFirst()">
                  {% for show in shows %}
-                    <input type="checkbox" name="chkbox" value={{show.id}}>
+                    <input type="checkbox" id="chkbox" name="chkbox" value={{show.id}}>
                     <label> Name: {{ show.name }}, Row: {{ show.row }},  Seat: {{ show.seat }},  Section: {{ show.section }},  Theatre: {{ show.theatre }},  Date: {{ show.date }},  Time: {{ show.time }},  Price: ${{ show.price }}</label><br>
                  {% endfor %}
 
