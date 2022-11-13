@@ -10,6 +10,11 @@
                 alert("The order number cannot be empty!");
                 return false;
             }
+
+            if (isNaN(x)){
+                alert("The order number should be a number!");
+                return false;
+            }
     };
         function validateFormSecond() {
            var x = document.forms["second"]["ByEmail"].value;
@@ -17,6 +22,11 @@
                   alert("Your email cannot be empty!");
                   return false;
            }
+
+           if (!x.includes("@")) {
+                alert("Invalid! Email must include @");
+                return false;
+            }
     };
     </script>
 </head>
