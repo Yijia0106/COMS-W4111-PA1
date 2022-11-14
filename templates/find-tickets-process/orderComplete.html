@@ -5,25 +5,26 @@
     <title>Order complete</title>
 </head>
 <body>
- <h1 style="text-align:center">Order Complete</h1><br>
+<h1 style="text-align:center">Order Complete</h1><br>
 
-    <dl>
-        <dt style="text-align:center">
-                 {% for customer in customers %}
-                    <p> Thank you, {{customer.name}}! Your order number is {{customer.order_id}}. </p><br>
-                    {% if customer.origin_price == customer.final_price %}<p>Your grand total is {{ customer.origin_price }}</p>
-                    {% else %}<p>The original price is {{ customer.origin_price }}, your grand total is {{ customer.final_price }}. Congratulations on your savings!</p><br>
-                    {% endif %}
-                    <p> The receipt has been sent to {{customer.email}}. </p><br>
-                 {% endfor %}
+<dl>
+    <dt style="text-align:center">
+        {% for customer in customers %}
+        <p> Thank you, {{customer.name}}! Your order number is {{customer.order_id}}. </p><br>
+        {% if customer.origin_price == customer.final_price %}<p>Your grand total is {{ customer.origin_price }}</p>
+        {% else %}<p>The original price is {{ customer.origin_price }}, your grand total is {{ customer.final_price }}.
+        Congratulations on your savings!</p><br>
+        {% endif %}
+        <p> The receipt has been sent to {{customer.email}}. </p><br>
+        {% endfor %}
 
-        </dt>
-      </dl>
+    </dt>
+</dl>
 
-    <br>
-    <form style="text-align:center">
-     <input type="button" value="Return" onclick="location.href='/';">
-    </form>
+<br>
+<form style="text-align:center">
+    <input onclick="location.href='/';" type="button" value="Return">
+</form>
 
 </body>
 </html>

@@ -11,6 +11,7 @@
         div {
           position: relative;
         }
+
     </style>
     <script>
         function validateForm() {
@@ -43,50 +44,55 @@
             else document.getElementById('afterApply').innerHTML = "Invalid promo code!";
         };
 
+
     </script>
 </head>
 <body>
 <!--    {% for discount in session["discounts"] %}-->
 <!--    {{ discount }}<br>-->
 <!--    {% endfor %}-->
-    <h1 style="text-align:center">Available Shows and Seats</h1>
-    {% if shows |length ==0 %}
-    <h2>Currently, there is no show and seat that fulfills your request</h2>
-    {% else %}
-    <div align="center">
-        <form name="first" action="/fillPaymentInfo" method="POST" onsubmit="return validateForm()">
-            <table>
-                <tr>
-                    <th>Show Name</th>
-                    <th>Theatre</th>
-                    <th>Section</th>
-                    <th>Row</th>
-                    <th>Seat</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Price</th>
-                </tr>
-                {% for show in shows %}
-                    <tr>
-                        <th>{{ show.name }}</th>
-                        <th>{{ show.theatre }}</th>
-                        <th>{{ show.section }}</th>
-                        <th>{{ show.row }}</th>
-                        <th>{{ show.seat }}</th>
-                        <th>{{ show.date }}</th>
-                        <th>{{ show.time }}</th>
-                        <th>{{ show.price }}</th>
-                        <th><input type="checkbox" id="chkbox" name="chkbox" value={{show.id}}></th>
-                    </tr>
-                <br>
-                {% endfor %}
-            </table><br>
-            <input type="text" id="coupon" name="coupon" placeholder="Have a promo code?"><input type="button" onclick="validateCoupon()" value="Apply"><p id="afterApply"></p><br>
+<h1 style="text-align:center">Available Shows and Seats</h1>
+{% if shows |length ==0 %}
+<h2>Currently, there is no show and seat that fulfills your request</h2>
+{% else %}
+<div align="center">
+    <form action="/fillPaymentInfo" method="POST" name="first" onsubmit="return validateForm()">
+        <table>
+            <tr>
+                <th>Show Name</th>
+                <th>Theatre</th>
+                <th>Section</th>
+                <th>Row</th>
+                <th>Seat</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Price</th>
+            </tr>
+            {% for show in shows %}
+            <tr>
+                <th>{{ show.name }}</th>
+                <th>{{ show.theatre }}</th>
+                <th>{{ show.section }}</th>
+                <th>{{ show.row }}</th>
+                <th>{{ show.seat }}</th>
+                <th>{{ show.date }}</th>
+                <th>{{ show.time }}</th>
+                <th>{{ show.price }}</th>
+                <th><input id="chkbox" name="chkbox" type="checkbox" value={{show.id}}></th>
+            </tr>
             <br>
-            <input type="submit" value="Confirm"><br>
-        </form>
-        {% endif %}
-        </div>
+            {% endfor %}
+        </table>
+        <br>
+        <input id="coupon" name="coupon" placeholder="Have a promo code?" type="text"><input onclick="validateCoupon()"
+                                                                                             type="button"
+                                                                                             value="Apply">
+        <p id="afterApply"></p><br>
+        <br>
+        <input type="submit" value="Confirm"><br>
+    </form>
+    {% endif %}
+</div>
 
 
 <!--      <dl>-->
@@ -105,10 +111,9 @@
 
 <br><br>
 
-    <form style="text-align:center">
-     <input type="button" value="Return" onclick="history.back()">
-    </form>
-
+<form style="text-align:center">
+    <input onclick="history.back()" type="button" value="Return">
+</form>
 
 
 </body>

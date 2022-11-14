@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Search for your previous orders</title>
+    <style>
+        input {
+          width: 20%;
+          padding: 15px 20px;
+          margin: 5px 0;
+          box-sizing: border-box;
+        }
+    </style>
     <script>
         function validateFormFirst() {
             var x = document.forms["first"]["ByOrderNumber"].value;
@@ -28,24 +36,26 @@
                 return false;
             }
     };
+
     </script>
 </head>
 <body>
 <div style="width:100%;text-align:center">
     <h2>We need some basic information to locate your treasure...</h2>
-        <form name="first" action="/findByOrderNumber" method="POST" onsubmit="return validateFormFirst()">
-          <input type="text" name="ByOrderNumber" id="ByOrderNumber" placeholder="Your order number is"><input type="submit" value="Confirm">
-        </form>
+    <form action="/findByOrderNumber" method="POST" name="first" onsubmit="return validateFormFirst()">
+        <input id="ByOrderNumber" name="ByOrderNumber" placeholder="Your order number is" type="text"><br>
+        <input type="submit" value="Confirm">
+    </form>
 
-        <p>Or</p>
+    <p>Or</p>
 
-        <form name="second" action="/findByEmail" method="POST" onsubmit="return validateFormSecond()">
-            <input type="text" name="ByEmail" id="ByEmail" placeholder="Your email is">
-            <input type="submit" value="Confirm">
-        </form>
+    <form action="/findByEmail" method="POST" name="second" onsubmit="return validateFormSecond()">
+        <input id="ByEmail" name="ByEmail" placeholder="Your email is" type="text"><br>
+        <input type="submit" value="Confirm">
+    </form>
 
 
-        <input type="button" value="Return" onclick="history.back()">
+    <input onclick="history.back()" type="button" value="Return">
 </div>
 </body>
 </html>

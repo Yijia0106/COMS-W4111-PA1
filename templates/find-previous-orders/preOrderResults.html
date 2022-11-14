@@ -11,34 +11,34 @@
 {% else %}
 <table>
     <tr>
-    <th>Order Number</th>
-    <th>Order Date</th>
-    <th>Order Time</th>
-    <th>Show Name</th>
-    <th>Theatre</th>
-    <th>Section</th>
-    <th>Row</th>
-    <th>Seat</th>
-    <th>Show Date</th>
-    <th>Show Time</th>
-  </tr>
-  {% for order in orders %}
-   <tr>
-    <th>{{ order.order_number }}</th>
-    <th>{{ order.o_date }}</th>
-    <th>{{ order.o_time }}</th>
-    <th>{{ order.show }}</th>
-    <th>{{ order.theatre }}</th>
-    <th>{{ order.section }}</th>
-    <th>{{ order.row }}</th>
-    <th>{{ order.seat }}</th>
-    <th>{{ order.s_date }}</th>
-    <th>{{ order.s_time }}</th>
-  </tr>
-  {% endfor %}
+        <th>Order Number</th>
+        <th>Order Date</th>
+        <th>Order Time</th>
+        <th>Show Name</th>
+        <th>Theatre</th>
+        <th>Section</th>
+        <th>Row</th>
+        <th>Seat</th>
+        <th>Show Date</th>
+        <th>Show Time</th>
+    </tr>
+    {% for order in orders %}
+    <tr>
+        <th>{{ order.order_number }}</th>
+        <th>{{ order.o_date }}</th>
+        <th>{{ order.o_time }}</th>
+        <th>{{ order.show }}</th>
+        <th>{{ order.theatre }}</th>
+        <th>{{ order.section }}</th>
+        <th>{{ order.row }}</th>
+        <th>{{ order.seat }}</th>
+        <th>{{ order.s_date }}</th>
+        <th>{{ order.s_time }}</th>
+    </tr>
+    {% endfor %}
 </table>
 {% endif %}
-<input type="button" value="Return" onclick="history.back()">
+<input onclick="history.back()" type="button" value="Return">
 <form action="/"><input type="submit" value="Main menu"></form>
 </body>
 </html>

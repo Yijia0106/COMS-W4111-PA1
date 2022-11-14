@@ -26,34 +26,37 @@
             }
 
         };
+
     </script>
 </head>
 <body>
-    <h1 style="text-align:center">Payment Information</h1><br>
+<h1 style="text-align:center">Payment Information</h1><br>
 
-    <dl>
-        <dt style="text-align:center">
-            <form name="first" action="/completeOrder" method="POST" onsubmit="return validateFormFirst()">
+<dl>
+    <dt style="text-align:center">
+        <form action="/completeOrder" method="POST" name="first" onsubmit="return validateFormFirst()">
 
-                <label>Name: </label> <input type="text" name="cName" id="cName" placeholder="Your Name"><br><br>
-                <label>Email: </label> <input type="text" name="cEmail" id="cEmail" placeholder="Your Email" required pattern=".+@.+$"><br><br>
-                <label>Phone: </label> <input type="text" name="cPhone" id="cPhone" placeholder="Your Phone"><br><br>
-<!--                <label>Discount: </label> <input type="text" name="discount" id="discount" placeholder="Promo Code"><br><br>-->
-                <label>Payment Method: </label>
-                <input type="radio" id="creditC" name="paymentM" value="credit card" checked><label for="creditC">credit card</label>
-                <input type="radio" id="paypal" name="paymentM" value="paypal"><label for="paypal">paypal</label>
-                <input type="radio" id="appleP" name="paymentM" value="apple pay"><label for="appleP">apple pay</label>
+            <label>Name: </label> <input id="cName" name="cName" placeholder="Your Name" type="text"><br><br>
+            <label>Email: </label> <input id="cEmail" name="cEmail" pattern=".+@.+$" placeholder="Your Email" required
+                                          type="text"><br><br>
+            <label>Phone: </label> <input id="cPhone" name="cPhone" placeholder="Your Phone" type="text"><br><br>
+            <!--                <label>Discount: </label> <input type="text" name="discount" id="discount" placeholder="Promo Code"><br><br>-->
+            <label>Payment Method: </label>
+            <input checked id="creditC" name="paymentM" type="radio" value="credit card"><label for="creditC">credit
+            card</label>
+            <input id="paypal" name="paymentM" type="radio" value="paypal"><label for="paypal">paypal</label>
+            <input id="appleP" name="paymentM" type="radio" value="apple pay"><label for="appleP">apple pay</label>
 
-                <br>
-                <br>
-                <input type="submit" value="Submit">
-            </form>
-        </dt>
-      </dl>
+            <br>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+    </dt>
+</dl>
 
-    <br>
-     <form style="text-align:center">
-     <input type="button" value="Return" onclick="location.href='/';">
-    </form>
+<br>
+<form style="text-align:center">
+    <input onclick="location.href='/';" type="button" value="Return">
+</form>
 </body>
 </html>
