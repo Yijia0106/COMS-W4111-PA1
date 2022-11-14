@@ -301,11 +301,11 @@ def before_request():
         cursor = g.conn.execute("SELECT * FROM Discounts")
         discounts = []
         for entry in cursor:
-            print(entry)
             discount = dict()
             discount['code'] = entry[0]
-            discount['amount'] = entry[2]
-            discount['type'] = int(float(entry[1]))
+            discount['amount'] = int(float(entry[2]))
+            discount['type'] = entry[1]
+            print(discount)
             discounts.append(discount)
         session['discounts'] = discounts
     except:
