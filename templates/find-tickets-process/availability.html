@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Available shows and seats</title>
+    <style>
+        form {
+        margin-left : 25%
+        width: 50%;
+        }
+        div {
+          position: relative;
+        }
+    </style>
     <script>
-
-        function validateFormFirst() {
+        function validateForm() {
             var inputs = document.getElementsByTagName('input');
             var flag = false;
 
@@ -16,32 +24,86 @@
             }
 
             if(!flag){
-                alert("Please choose one or return!");
+                alert("Please select at least one ticket!");
                 return false;
             }
+        };
 
+
+
+        function validateCoupon() {
+            var promo = document.getElementById('coupon').value.toUpperCase();
+            var promo_list = "{{ session['discounts'] }}";
+            if(promo_list.includes(promo)){
+<!--                var first = promo_list.slice(promo_list.indexOf(promo));-->
+<!--                var second = first.slice("Decimal");-->
+<!--                alert(second);-->
+                document.getElementById('afterApply').innerHTML = "Promo code applied successfully.";
+            }
+            else document.getElementById('afterApply').innerHTML = "Invalid promo code!";
         };
 
     </script>
 </head>
 <body>
-    <h1 style="text-align:center">Available Shows and Seats</h1><br>
-
-      <dl>
-        <dt style="text-align:center">
-            <form name="first" action="/fillPaymentInfo" method="POST" onsubmit="return validateFormFirst()">
-                 {% for show in shows %}
-                    <input type="checkbox" id="chkbox" name="chkbox" value={{show.id}}>
-                    <label> Name: {{ show.name }}, Row: {{ show.row }},  Seat: {{ show.seat }},  Section: {{ show.section }},  Theatre: {{ show.theatre }},  Date: {{ show.date }},  Time: {{ show.time }},  Price: ${{ show.price }}</label><br>
-                 {% endfor %}
-
+<!--    {% for discount in session["discounts"] %}-->
+<!--    {{ discount }}<br>-->
+<!--    {% endfor %}-->
+    <h1 style="text-align:center">Available Shows and Seats</h1>
+    {% if shows |length ==0 %}
+    <h2>Currently, there is no show and seat that fulfills your request</h2>
+    {% else %}
+    <div align="center">
+        <form name="first" action="/fillPaymentInfo" method="POST" onsubmit="return validateForm()">
+            <table>
+                <tr>
+                    <th>Show Name</th>
+                    <th>Theatre</th>
+                    <th>Section</th>
+                    <th>Row</th>
+                    <th>Seat</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Price</th>
+                </tr>
+                {% for show in shows %}
+                    <tr>
+                        <th>{{ show.name }}</th>
+                        <th>{{ show.theatre }}</th>
+                        <th>{{ show.section }}</th>
+                        <th>{{ show.row }}</th>
+                        <th>{{ show.seat }}</th>
+                        <th>{{ show.date }}</th>
+                        <th>{{ show.time }}</th>
+                        <th>{{ show.price }}</th>
+                        <th><input type="checkbox" id="chkbox" name="chkbox" value={{show.id}}></th>
+                    </tr>
                 <br>
-                <input type="submit" value="Submit">
-            </form>
-        </dt>
-      </dl>
+                {% endfor %}
+            </table><br>
+            <input type="text" id="coupon" name="coupon" placeholder="Have a promo code?"><input type="button" onclick="validateCoupon()" value="Apply"><p id="afterApply"></p><br>
+            <br>
+            <input type="submit" value="Confirm"><br>
+        </form>
+        {% endif %}
+        </div>
 
 
+<!--      <dl>-->
+<!--        <dt style="text-align:center">-->
+<!--            <form name="first" action="/fillPaymentInfo" method="POST" onsubmit="return validateFormFirst()">-->
+<!--                 {% for show in shows %}-->
+<!--                    <input type="checkbox" id="chkbox" name="chkbox" value={{show.id}}>-->
+<!--                    <label> Name: {{ show.name }}, Row: {{ show.row }},  Seat: {{ show.seat }},  Section: {{ show.section }},  Theatre: {{ show.theatre }},  Date: {{ show.date }},  Time: {{ show.time }},  Price: ${{ show.price }}</label><br>-->
+<!--                 {% endfor %}-->
+
+<!--                <br>-->
+<!--                <input type="submit" value="Submit">-->
+<!--            </form>-->
+<!--        </dt>-->
+<!--      </dl>-->
+
+<br><br>
 
     <form style="text-align:center">
      <input type="button" value="Return" onclick="history.back()">

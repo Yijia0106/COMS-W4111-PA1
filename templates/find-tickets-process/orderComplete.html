@@ -10,8 +10,11 @@
     <dl>
         <dt style="text-align:center">
                  {% for customer in customers %}
-                    <label> Thank you, {{customer.name}}! Your order number is {{customer.order_id}}. </label><br>
-                    <label> The receipt has been sent to {{customer.email}}. </label><br>
+                    <p> Thank you, {{customer.name}}! Your order number is {{customer.order_id}}. </p><br>
+                    {% if customer.origin_price == customer.final_price %}<p>Your grand total is {{ customer.origin_price }}</p>
+                    {% else %}<p>The original price is {{ customer.origin_price }}, your grand total is {{ customer.final_price }}. Congratulations on your savings!</p><br>
+                    {% endif %}
+                    <p> The receipt has been sent to {{customer.email}}. </p><br>
                  {% endfor %}
 
         </dt>

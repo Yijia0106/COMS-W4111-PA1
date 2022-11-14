@@ -36,11 +36,11 @@
             <form name="first" action="/completeOrder" method="POST" onsubmit="return validateFormFirst()">
 
                 <label>Name: </label> <input type="text" name="cName" id="cName" placeholder="Your Name"><br><br>
-                <label>Email: </label> <input type="text" name="cEmail" id="cEmail" placeholder="Your Email"><br><br>
+                <label>Email: </label> <input type="text" name="cEmail" id="cEmail" placeholder="Your Email" required pattern=".+@.+$"><br><br>
                 <label>Phone: </label> <input type="text" name="cPhone" id="cPhone" placeholder="Your Phone"><br><br>
-                <label>Discount: </label> <input type="text" name="discount" id="discount" placeholder="Discount Code"><br><br>
+<!--                <label>Discount: </label> <input type="text" name="discount" id="discount" placeholder="Promo Code"><br><br>-->
                 <label>Payment Method: </label>
-                <input type="radio" id="creditC" name="paymentM" value="credit card"><label for="creditC">credit card</label>
+                <input type="radio" id="creditC" name="paymentM" value="credit card" checked><label for="creditC">credit card</label>
                 <input type="radio" id="paypal" name="paymentM" value="paypal"><label for="paypal">paypal</label>
                 <input type="radio" id="appleP" name="paymentM" value="apple pay"><label for="appleP">apple pay</label>
 
@@ -52,8 +52,8 @@
       </dl>
 
     <br>
-    <form style="text-align:center">
-     <input type="button" value="Return" onclick="history.back()">
+     <form style="text-align:center">
+     <input type="button" value="Return" onclick="location.href='/';">
     </form>
 </body>
 </html>
