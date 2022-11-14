@@ -1,0 +1,34 @@
+running on 0.0.0.0:8008
+ * Serving Flask app 'app'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8008
+ * Running on http://192.168.1.151:8008
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 857-585-382
+running on 0.0.0.0:8008
+Traceback (most recent call last):
+  File "/Users/ouitsuka/Desktop/broadway-ticket-system/app.py", line 346, in <module>
+    run()
+  File "/Users/ouitsuka/PycharmProjects/HelloWorld/venv/lib/python3.10/site-packages/click/core.py", line 1130, in __call__
+    return self.main(*args, **kwargs)
+  File "/Users/ouitsuka/PycharmProjects/HelloWorld/venv/lib/python3.10/site-packages/click/core.py", line 1055, in main
+    rv = self.invoke(ctx)
+  File "/Users/ouitsuka/PycharmProjects/HelloWorld/venv/lib/python3.10/site-packages/click/core.py", line 1404, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/Users/ouitsuka/PycharmProjects/HelloWorld/venv/lib/python3.10/site-packages/click/core.py", line 760, in invoke
+    return __callback(*args, **kwargs)
+  File "/Users/ouitsuka/Desktop/broadway-ticket-system/app.py", line 343, in run
+    app.run(host=HOST, port=PORT, debug=True, threaded=threaded)
+  File "/Users/ouitsuka/PycharmProjects/HelloWorld/venv/lib/python3.10/site-packages/flask/app.py", line 1188, in run
+    run_simple(t.cast(str, host), port, self, **options)
+  File "/Users/ouitsuka/PycharmProjects/HelloWorld/venv/lib/python3.10/site-packages/werkzeug/serving.py", line 1090, in run_simple
+    run_with_reloader(
+  File "/Users/ouitsuka/PycharmProjects/HelloWorld/venv/lib/python3.10/site-packages/werkzeug/_reloader.py", line 434, in run_with_reloader
+    ensure_echo_on()
+  File "/Users/ouitsuka/PycharmProjects/HelloWorld/venv/lib/python3.10/site-packages/werkzeug/_reloader.py", line 414, in ensure_echo_on
+    termios.tcsetattr(sys.stdin, termios.TCSANOW, attributes)
+termios.error: (4, 'Interrupted system call')
