@@ -4,14 +4,84 @@
     <meta charset="UTF-8">
     <title>Available shows and seats</title>
     <style>
-        form {
-        margin-left : 25%;
-        width: 50%;
-        }
-        div {
-          position: relative;
-        }
 
+        p {
+            font-size:15px;
+            font-family: "DIN Alternate", serif;
+        }
+        .column {
+            font-size:25px;
+            color:#634258 ;
+            font-family: Rockwell,serif;
+        }
+        h1 {
+            font-family:'Courier New',serif;
+            color:#634258;
+            font-size: 40px;
+            text-align: center;
+        }
+        
+        body {
+            background-color:#9bddff;
+            margin: 3% auto;
+        }
+        .user-input {
+              width: 8%;
+              margin: 5px 0;
+              box-sizing: border-box;
+              font-family: inherit;
+              border: 0;
+              border-bottom: 2px solid #9b9b9b;
+              outline: 0;
+              font-size: 1.3rem;
+              color: #fff;
+              background: transparent;
+              transition: border-color 0.2s;
+        }
+        
+        .form__group {
+            position: relative;
+            padding: 15px 0 0;
+            width: 100%;
+            text-align:center;
+        }
+        
+        .table{
+            margin: auto;
+          width: 60%;
+          padding: 30px;
+        }
+        
+        .submit {
+        position: relative;
+          margin: auto;
+          width: 8%;
+          height: 50px;
+          background: #fff;
+          transform: translate3d(0px, 0%, 0px);
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 15px;
+          letter-spacing: .05em;
+          overflow: hidden;
+            border-radius: 20px;
+        }
+        .submit:hover {
+            background: #3ad2d0;
+            transition: background .5s linear;
+        }
+        .apply {
+            position: relative;
+              margin: auto;
+              width: 5%;
+              background: #fff;
+              transform: translate3d(0px, 0%, 0px);
+              text-decoration: none;
+              font-weight: 600;
+              font-size: 12px;
+              letter-spacing: .05em;
+              overflow: hidden;
+        }
     </style>
     <script>
         function validateForm() {
@@ -51,48 +121,46 @@
 <!--    {% for discount in session["discounts"] %}-->
 <!--    {{ discount }}<br>-->
 <!--    {% endfor %}-->
-<h1 style="text-align:center">Available Shows and Seats</h1>
+<div class="form__group">
+<h1>Available Tickets</h1>
 {% if shows |length ==0 %}
 <h2>Currently, there is no show and seat that fulfills your request</h2>
 {% else %}
-<div align="center">
     <form action="/fillPaymentInfo" method="POST" name="first" onsubmit="return validateForm()">
-        <table>
+        <table class="table">
             <tr>
-                <th>Show Name</th>
-                <th>Theatre</th>
-                <th>Section</th>
-                <th>Row</th>
-                <th>Seat</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Price</th>
+                <th><p class="column">Show Name</p></th>
+                <th><p class="column">Theatre</p></th>
+                <th><p class="column">Section</p></th>
+                <th><p class="column">Row</p></th>
+                <th><p class="column">Seat</p></th>
+                <th><p class="column">Date</p></th>
+                <th><p class="column">Time</p></th>
+                <th><p class="column">Price</p></th>
             </tr>
             {% for show in shows %}
             <tr>
-                <th>{{ show.name }}</th>
-                <th>{{ show.theatre }}</th>
-                <th>{{ show.section }}</th>
-                <th>{{ show.row }}</th>
-                <th>{{ show.seat }}</th>
-                <th>{{ show.date }}</th>
-                <th>{{ show.time }}</th>
-                <th>{{ show.price }}</th>
-                <th><input id="chkbox" name="chkbox" type="checkbox" value={{show.id}}></th>
+                <th><p>{{ show.name }}</p></th>
+                <th><p>{{ show.theatre }}</p></th>
+                <th><p>{{ show.section }}</p></th>
+                <th><p>{{ show.row }}</p></th>
+                <th><p>{{ show.seat }}</p></th>
+                <th><p>{{ show.date }}</p></th>
+                <th><p>{{ show.time }}</p></th>
+                <th><p>{{ show.price }}</p></th>
+                <th><input id="chkbox" name="chkbox" type="checkbox" class="check" value={{show.id}}></th>
             </tr>
             <br>
             {% endfor %}
         </table>
         <br>
-        <input id="coupon" name="coupon" placeholder="Have a promo code?" type="text"><input onclick="validateCoupon()"
-                                                                                             type="button"
-                                                                                             value="Apply">
+        <input id="coupon" name="coupon" class="user-input" placeholder="Have a promo code?" type="text">
+        <input onclick="validateCoupon()" type="button" class="apply" value="Apply">
         <p id="afterApply"></p><br>
         <br>
-        <input type="submit" value="Buy tickets"><br>
+        <input type="submit" class="submit" value="Buy tickets"><br>
     </form>
     {% endif %}
-</div>
 
 
 <!--      <dl>-->
@@ -112,9 +180,9 @@
 <br><br>
 
 <form style="text-align:center">
-    <input onclick="history.back()" type="button" value="Return">
+    <input class="submit" onclick="history.back()" type="button" value="Return">
 </form>
-
+</div>
 
 </body>
 </html>

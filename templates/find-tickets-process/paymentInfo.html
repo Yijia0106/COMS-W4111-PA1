@@ -3,6 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <title>Payment information</title>
+    <style>
+        p {
+            font-size:15px;
+            font-family: "DIN Alternate", serif;
+        }
+        .column {
+            font-size:20px;
+            color:#634258 ;
+            font-family: Rockwell,serif;
+        }
+        h1 {
+            font-family:'Courier New',serif;
+            color:#634258;
+            font-size: 40px;
+            text-align: center;
+        }
+
+        body {
+            background-color:#9bddff;
+            margin: 3% auto;
+        }
+        .user-input {
+              width: 8%;
+              margin: 5px 0;
+              box-sizing: border-box;
+              font-family: inherit;
+              border: 0;
+              border-bottom: 2px solid #9b9b9b;
+              outline: 0;
+              font-size: 1.3rem;
+              color: #fff;
+              background: transparent;
+              transition: border-color 0.2s;
+        }
+
+        .form__group {
+            position: relative;
+            padding: 15px 0 0;
+            width: 100%;
+            text-align:center;
+        }
+        .submit {
+        position: relative;
+          margin: auto;
+          width: 5%;
+          height: 30px;
+          background: #fff;
+          transform: translate3d(0px, 0%, 0px);
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 15px;
+          letter-spacing: .05em;
+          overflow: hidden;
+            border-radius: 20px;
+        }
+        .submit:hover {
+            background: #3ad2d0;
+            transition: background .5s linear;
+        }
+    </style>
     <script>
 
         function validateFormFirst() {
@@ -30,33 +90,35 @@
     </script>
 </head>
 <body>
-<h1 style="text-align:center">Payment Information</h1><br>
+<div class="form__group">
+    <h1 style="text-align:center">Payment Information</h1><br>
 
-<dl>
-    <dt style="text-align:center">
-        <form action="/completeOrder" method="POST" name="first" onsubmit="return validateFormFirst()">
+    <dl>
+        <dt style="text-align:center">
+            <form action="/completeOrder" method="POST" name="first" onsubmit="return validateFormFirst()">
 
-            <label>Name: </label> <input id="cName" name="cName" placeholder="Your Name" type="text"><br><br>
-            <label>Email: </label> <input id="cEmail" name="cEmail" pattern=".+@.+$" placeholder="Your Email" required
-                                          type="text"><br><br>
-            <label>Phone: </label> <input id="cPhone" name="cPhone" pattern="[1-9][0-9]+" placeholder="Your Phone" type="text"><br><br>
-            <!--                <label>Discount: </label> <input type="text" name="discount" id="discount" placeholder="Promo Code"><br><br>-->
-            <label>Payment Method: </label>
-            <input checked id="creditC" name="paymentM" type="radio" value="credit card"><label for="creditC">credit
-            card</label>
-            <input id="paypal" name="paymentM" type="radio" value="paypal"><label for="paypal">paypal</label>
-            <input id="appleP" name="paymentM" type="radio" value="apple pay"><label for="appleP">apple pay</label>
+                <label class="column">Name: </label> <input id="cName" name="cName" class="user-input" placeholder="Your Name" type="text"><br><br>
+                <label class="column">Email: </label> <input id="cEmail" name="cEmail" class="user-input" pattern=".+@.+$" placeholder="Your Email" required
+                                              type="text"><br><br>
+                <label class="column">Phone: </label> <input id="cPhone" name="cPhone" class="user-input" pattern="[1-9][0-9]+" placeholder="Your Phone" type="text"><br><br><br>
+                <!--                <label>Discount: </label> <input type="text" name="discount" id="discount" placeholder="Promo Code"><br><br>-->
+                <label class="column">Payment Method: </label>
+                <input checked id="creditC" name="paymentM" type="radio" value="credit card"><label for="creditC">credit
+                card</label>
+                <input id="paypal" name="paymentM" type="radio" value="paypal"><label for="paypal">paypal</label>
+                <input id="appleP" name="paymentM" type="radio" value="apple pay"><label for="appleP">apple pay</label>
 
-            <br>
-            <br>
-            <input type="submit" value="Confirm">
-        </form>
-    </dt>
-</dl>
+                <br>
+                <br>
+                <input type="submit" class="submit" value="Confirm">
+            </form>
+        </dt>
+    </dl>
 
-<br>
-<form style="text-align:center">
-    <input onclick="location.href='/';" type="button" value="Return">
-</form>
+    <br>
+    <form style="text-align:center">
+        <input onclick="location.href='/';" type="button" class="submit" value="Return">
+    </form>
+    </div>
 </body>
 </html>

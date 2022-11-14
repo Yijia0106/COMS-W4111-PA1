@@ -4,11 +4,83 @@
     <meta charset="UTF-8">
     <title>Search for your previous orders</title>
     <style>
-        input {
-          width: 20%;
-          padding: 15px 20px;
-          margin: 5px 0;
-          box-sizing: border-box;
+
+        p {
+            font-size:15px;
+            font-family: "DIN Alternate", serif;
+        }
+        .column {
+            font-size:25px;
+            color:#634258 ;
+            font-family: Rockwell,serif;
+        }
+        h1, h2 {
+            font-family:'Courier New',serif;
+            color:#634258;
+            font-size: 30px;
+            text-align: center;
+        }
+
+        body {
+            background-color:#9bddff;
+            margin: 3% auto;
+        }
+        .user-input {
+              width: 12%;
+              margin: 5px 0;
+              box-sizing: border-box;
+              font-family: inherit;
+              border: 0;
+              border-bottom: 2px solid #9b9b9b;
+              outline: 0;
+              font-size: 1.3rem;
+              color: #fff;
+              background: transparent;
+              transition: border-color 0.2s;
+        }
+
+        .form__group {
+            position: relative;
+            padding: 15px 0 0;
+            width: 100%;
+            text-align:center;
+        }
+
+        .table{
+            margin: auto;
+          width: 60%;
+          padding: 30px;
+        }
+
+        .submit {
+        position: relative;
+          margin: auto;
+          width: 5%;
+          height: 30px;
+          background: #fff;
+          transform: translate3d(0px, 0%, 0px);
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 15px;
+          letter-spacing: .05em;
+          overflow: hidden;
+            border-radius: 20px;
+        }
+        .submit:hover {
+            background: #3ad2d0;
+            transition: background .5s linear;
+        }
+        .apply {
+            position: relative;
+              margin: auto;
+              width: 5%;
+              background: #fff;
+              transform: translate3d(0px, 0%, 0px);
+              text-decoration: none;
+              font-weight: 600;
+              font-size: 12px;
+              letter-spacing: .05em;
+              overflow: hidden;
         }
     </style>
     <script>
@@ -40,22 +112,22 @@
     </script>
 </head>
 <body>
-<div style="width:100%;text-align:center">
-    <h2>We need some basic information to locate your treasure...</h2>
+<div class="form__group" style="width:100%;text-align:center">
+    <h2>We need some basic information to locate your treasure...</h2><br><br>
     <form action="/findByOrderNumber" method="POST" name="first" onsubmit="return validateFormFirst()">
-        <input id="ByOrderNumber" name="ByOrderNumber" placeholder="Your order number is" type="text"><br>
-        <input type="submit" value="Confirm">
+        <input id="ByOrderNumber" name="ByOrderNumber" class="user-input" placeholder="Your order number is" type="text"><br><br>
+        <input type="submit" class="submit" value="Confirm">
     </form>
 
-    <p>Or</p>
+    <p class="column">Or</p>
 
     <form action="/findByEmail" method="POST" name="second" onsubmit="return validateFormSecond()">
-        <input id="ByEmail" name="ByEmail" placeholder="Your email is" type="text"><br>
-        <input type="submit" value="Confirm">
-    </form>
+        <input id="ByEmail" name="ByEmail" class="user-input" placeholder="Your email is" type="text"><br><br>
+        <input type="submit" class="submit" value="Confirm">
+    </form><br><br><br><br>
 
 
-    <input onclick="history.back()" type="button" value="Return">
+    <input onclick="history.back()" type="button" class="apply" value="Return">
 </div>
 </body>
 </html>

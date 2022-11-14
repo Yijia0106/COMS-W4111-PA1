@@ -3,42 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <title>Previous order results</title>
+    <style>
+
+        p {
+            font-size:15px;
+            font-family: "DIN Alternate", serif;
+        }
+        .column {
+            font-size:25px;
+            color:#634258 ;
+            font-family: Rockwell,serif;
+        }
+        h1, h2 {
+            font-family:'Courier New',serif;
+            color:#634258;
+            font-size: 40px;
+            text-align: center;
+        }
+
+        body {
+            background-color:#9bddff;
+            margin: 3% auto;
+        }
+        .user-input {
+              width: 12%;
+              margin: 5px 0;
+              box-sizing: border-box;
+              font-family: inherit;
+              border: 0;
+              border-bottom: 2px solid #9b9b9b;
+              outline: 0;
+              font-size: 1.3rem;
+              color: #fff;
+              background: transparent;
+              transition: border-color 0.2s;
+        }
+
+        .form__group {
+            position: relative;
+            padding: 15px 0 0;
+            width: 100%;
+            text-align:center;
+        }
+
+        .table{
+            margin: auto;
+          width: 60%;
+          padding: 30px;
+        }
+
+        .submit {
+        position: relative;
+          margin: auto;
+          width: 5%;
+          height: 30px;
+          background: #fff;
+          transform: translate3d(0px, 0%, 0px);
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 15px;
+          letter-spacing: .05em;
+          overflow: hidden;
+            border-radius: 20px;
+        }
+        .submit:hover {
+            background: #3ad2d0;
+            transition: background .5s linear;
+        }
+        .apply {
+            position: relative;
+              margin: auto;
+              width: 5%;
+              background: #fff;
+              transform: translate3d(0px, 0%, 0px);
+              text-decoration: none;
+              font-weight: 600;
+              font-size: 12px;
+              letter-spacing: .05em;
+              overflow: hidden;
+        }
+    </style>
 </head>
 <body>
+<div class="form__group">
 <h1>Your result is:</h1>
 {% if orders |length ==0 %}
-<h2>You don't have order associated with the information provided</h2>
+<p class="column">You don't have order associated with the information provided</p>
 {% else %}
-<table>
+<table class="table">
     <tr>
-        <th>Order Number</th>
-        <th>Order Date</th>
-        <th>Order Time</th>
-        <th>Show Name</th>
-        <th>Theatre</th>
-        <th>Section</th>
-        <th>Row</th>
-        <th>Seat</th>
-        <th>Show Date</th>
-        <th>Show Time</th>
+        <th><p class="column">Order Number</p></th>
+        <th><p class="column">Order Date</p></th>
+        <th><p class="column">Order Time</p></th>
+        <th><p class="column">Show Name</p></th>
+        <th><p class="column">Theatre</p></th>
+        <th><p class="column">Section</p></th>
+        <th><p class="column">Row</p></th>
+        <th><p class="column">Seat</p></th>
+        <th><p class="column">Show Date</p></th>
+        <th><p class="column">Show Time</p></th>
     </tr>
     {% for order in orders %}
     <tr>
-        <th>{{ order.order_number }}</th>
-        <th>{{ order.o_date }}</th>
-        <th>{{ order.o_time }}</th>
-        <th>{{ order.show }}</th>
-        <th>{{ order.theatre }}</th>
-        <th>{{ order.section }}</th>
-        <th>{{ order.row }}</th>
-        <th>{{ order.seat }}</th>
-        <th>{{ order.s_date }}</th>
-        <th>{{ order.s_time }}</th>
+        <th><p>{{ order.order_number }}</p></th>
+        <th><p>{{ order.o_date }}</p></th>
+        <th><p>{{ order.o_time }}</p></th>
+        <th><p>{{ order.show }}</p></th>
+        <th><p>{{ order.theatre }}</p></th>
+        <th><p>{{ order.section }}</p></th>
+        <th><p>{{ order.row }}</p></th>
+        <th><p>{{ order.seat }}</p></th>
+        <th><p>{{ order.s_date }}</p></th>
+        <th><p>{{ order.s_time }}</p></th>
     </tr>
     {% endfor %}
 </table>
-{% endif %}
-<input onclick="history.back()" type="button" value="Return">
-<form action="/"><input type="submit" value="Main menu"></form>
+{% endif %}<br><br>
+<input onclick="history.back()" type="button" value="Return" class="submit"><br><br>
+<form action="/"><input type="submit" value="Main menu" class="submit"></form>
+    </div>
 </body>
 </html>

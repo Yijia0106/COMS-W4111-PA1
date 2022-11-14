@@ -3,6 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Order complete</title>
+    <style>
+        p {
+            font-size:15px;
+            font-family: "DIN Alternate", serif;
+        }
+        .column {
+            font-size:25px;
+            color:#634258 ;
+            font-family: Rockwell,serif;
+        }
+        h1 {
+            font-family:'Courier New',serif;
+            color:#634258;
+            font-size: 40px;
+            text-align: center;
+        }
+
+        body {
+            background-color:#9bddff;
+            margin: 3% auto;
+        }
+        .submit {
+        position: relative;
+          margin: auto;
+          width: 8%;
+          height: 50px;
+          background: #fff;
+          transform: translate3d(0px, 0%, 0px);
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 15px;
+          letter-spacing: .05em;
+          overflow: hidden;
+            border-radius: 20px;
+        }
+        .submit:hover {
+            background: #3ad2d0;
+            transition: background .5s linear;
+        }
+
+    </style>
 </head>
 <body>
 <h1 style="text-align:center">Order Complete</h1><br>
@@ -23,7 +64,7 @@
 
 <br>
 <form style="text-align:center">
-    <input onclick="location.href='/';" type="button" value="Return">
+    <input onclick="location.href='/';" type="button" class="submit" value="Return">
 </form>
 
 </body>

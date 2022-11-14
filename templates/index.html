@@ -9,6 +9,70 @@
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <title>Find your favorite broadway shows</title>
     <style>
+p {
+    font-size:20px;
+    color:#634258 ;
+    font-family: "DIN Alternate", serif;
+}
+
+h1 {
+    font-family:'Courier New',serif;
+    color:#634258;
+    font-size: 40px;
+    text-align: center;
+}
+
+body {
+    background-color:#9bddff;
+    margin: 10% auto;
+}
+.user-input {
+      width: 15%;
+      padding: 15px 20px;
+      margin: 5px 0;
+      box-sizing: border-box;
+      font-family: inherit;
+      border: 0;
+      border-bottom: 2px solid #9b9b9b;
+      outline: 0;
+      font-size: 1.3rem;
+      color: #fff;
+      background: transparent;
+      transition: border-color 0.2s;}
+
+.user-input:focus {
+  padding-bottom: 6px;
+  font-weight: 700;
+  border-width: 3px;
+    border-image-slice: 1;
+}
+
+.form__group {
+    position: relative;
+    padding: 15px 0 0;
+    margin-top: 10px;
+    width: 100%;
+    text-align:center;
+}
+
+.submit {
+position: relative;
+  margin: auto;
+  width: 8%;
+  height: 50px;
+  background: #fff;
+  transform: translate3d(0px, 0%, 0px);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: .05em;
+  overflow: hidden;
+    border-radius: 20px;
+}
+.submit:hover {
+    background: #3ad2d0;
+    transition: background .5s linear;
+}
 
     </style>
     <script>
@@ -38,23 +102,22 @@
            }
     };
 
-
     </script>
 </head>
 <body>
-<div style="width:100%;text-align:center">
-    <div><h1>Start your broadway experience now!</h1></div>
+<div class="form__group">
+    <h1>Start your broadway experience now!</h1>
     <form action="/submitAvailabilityRequestByName" method="POST" name="first" onsubmit="return validateFormFirst()">
-        <input id="byName" name="byName" class="user-input" placeholder="Search by Name" type="text"><br><input type="submit" value="Find tickets" class="submit">
+        <input id="byName" name="byName" class="user-input" placeholder="Search by Name" type="text"><br><br><input type="submit" value="Find tickets" class="submit">
     </form>
 
     <p>Or</p>
 
     <form action="/submitAvailabilityRequestByDate" method="POST" name="second" onsubmit="return validateFormSecond()">
         <input id="fromDate" name="fromDate" placeholder="From" type="text" class="user-input">
-        <input id="toDate" name="toDate" placeholder="To" type="text" class="user-input"><br>
+        <input id="toDate" name="toDate" placeholder="To" type="text" class="user-input"><br><br>
         <input type="submit" value="Find tickets" class="submit">
-    </form>
+    </form><br>
 
 
     <p><a href="/allShows">Browse all shows</a></p>

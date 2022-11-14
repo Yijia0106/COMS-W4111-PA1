@@ -11,6 +11,15 @@ app.secret_key = 'BROADWAY_SECRET_KEY'
 
 @app.route('/')
 def index():
+    discounts = []
+    cursor = g.conn.execute("SELECT * FROM Discounts")
+    for entry in cursor:
+        discount = dict()
+        discount['code'] = entry[0]
+        discount['amount'] = int(float(entry[2]))
+        discount['type'] = entry[1]
+        discounts.append(discount)
+    session['discounts'] = discounts
     return render_template("index.html", name="Yaochen Shen")
 
 
@@ -298,16 +307,6 @@ def db():
 def before_request():
     try:
         g.conn = engine.connect()
-        cursor = g.conn.execute("SELECT * FROM Discounts")
-        discounts = []
-        for entry in cursor:
-            discount = dict()
-            discount['code'] = entry[0]
-            discount['amount'] = int(float(entry[2]))
-            discount['type'] = entry[1]
-            print(discount)
-            discounts.append(discount)
-        session['discounts'] = discounts
     except:
         print("uh oh, problem connecting to database")
         g.conn = None

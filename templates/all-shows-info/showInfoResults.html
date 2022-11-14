@@ -8,6 +8,56 @@
   <link rel="stylesheet" href="/resources/demos/style.css">
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <style>
+        p {
+        font-size:20px;
+        color:#634258 ;
+        font-family: serif;
+    }
+
+    h2 {
+        font-family:'Courier New',serif;
+        color:#634258;
+        font-size: 40px;
+        text-align: center;
+    }
+
+    body {
+        background-color:#9bddff;
+        margin: 0 auto;
+    }
+        .form__group {
+        position: relative;
+        padding: 15px 0 0;
+        margin-top: 10px;
+        width: 100%;
+        text-align:center;
+    }
+
+    .submit {
+    position: relative;
+      margin: auto;
+      width: 8%;
+      height: 50px;
+      background: #fff;
+      transform: translate3d(0px, 0%, 0px);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: .05em;
+      overflow: hidden;
+        border-radius: 20px;
+    }
+    .submit:hover {
+        background: #3ad2d0;
+        transition: background .5s linear;
+    }
+    #accordion{
+        width: 40%;
+        position: relative;
+      margin: auto;
+    }
+    </style>
   <script>
   $( function() {
     $( "#accordion" ).accordion();
@@ -16,15 +66,18 @@
     <title>Shows information</title>
 </head>
 <body>
+<div class="form__group">
   <h2 style="text-align:center">All shows Information</h2><br>
-  <div id="accordion">
+  <div class="form__group" id="accordion">
   {% for show in shows %}
       <h3>{{ show.name }}</h3>
-      <div><p>{{ show.description }}</p></div>
+      <p>{{ show.description }}</p>
   {% endfor %}
   </div>
-<form>
- <input type="button" value="Return" onclick="history.back()">
-</form>
+    <br><br>
+    <form>
+     <input type="button" class="submit" value="Return" onclick="history.back()">
+    </form>
+</div>
 </body>
 </html>
