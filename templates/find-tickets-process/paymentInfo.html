@@ -39,7 +39,7 @@
             <label>Name: </label> <input id="cName" name="cName" placeholder="Your Name" type="text"><br><br>
             <label>Email: </label> <input id="cEmail" name="cEmail" pattern=".+@.+$" placeholder="Your Email" required
                                           type="text"><br><br>
-            <label>Phone: </label> <input id="cPhone" name="cPhone" placeholder="Your Phone" type="text"><br><br>
+            <label>Phone: </label> <input id="cPhone" name="cPhone" pattern="[1-9][0-9]+" placeholder="Your Phone" type="text"><br><br>
             <!--                <label>Discount: </label> <input type="text" name="discount" id="discount" placeholder="Promo Code"><br><br>-->
             <label>Payment Method: </label>
             <input checked id="creditC" name="paymentM" type="radio" value="credit card"><label for="creditC">credit
@@ -49,7 +49,7 @@
 
             <br>
             <br>
-            <input type="submit" value="Submit">
+            <input type="submit" value="Confirm">
         </form>
     </dt>
 </dl>

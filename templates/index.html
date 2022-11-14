@@ -3,22 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <link href="../style.css" rel="stylesheet">
+    <link href="/styles/style.css" rel="stylesheet" />
     <link href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-    <title>Find your favorite broadway shows!</title>
+    <title>Find your favorite broadway shows</title>
     <style>
-        body {
-          background-image:url("https://github.com/Yijia0106/broadway-ticket-system/blob/main/templates/background.jpg");
-        }
-    input {
-          width: 20%;
-          padding: 15px 20px;
-          margin: 5px 0;
-          box-sizing: border-box;
-        }
-
 
     </style>
     <script>
@@ -53,17 +43,17 @@
 </head>
 <body>
 <div style="width:100%;text-align:center">
-    <h1>Start your broadway experience now!</h1>
+    <div><h1>Start your broadway experience now!</h1></div>
     <form action="/submitAvailabilityRequestByName" method="POST" name="first" onsubmit="return validateFormFirst()">
-        <input id="byName" name="byName" placeholder="Search by Name" type="text"><br><input type="submit" value="Submit">
+        <input id="byName" name="byName" class="user-input" placeholder="Search by Name" type="text"><br><input type="submit" value="Find tickets" class="submit">
     </form>
 
     <p>Or</p>
 
     <form action="/submitAvailabilityRequestByDate" method="POST" name="second" onsubmit="return validateFormSecond()">
-        <input id="fromDate" name="fromDate" placeholder="From" type="text">
-        <input id="toDate" name="toDate" placeholder="To" type="text"><br>
-        <input type="submit" value="Submit">
+        <input id="fromDate" name="fromDate" placeholder="From" type="text" class="user-input">
+        <input id="toDate" name="toDate" placeholder="To" type="text" class="user-input"><br>
+        <input type="submit" value="Find tickets" class="submit">
     </form>
 
 
