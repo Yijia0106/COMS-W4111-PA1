@@ -1,4 +1,3 @@
-import os
 import time
 from datetime import date
 
@@ -8,17 +7,6 @@ import db
 app = Flask(__name__)
 engine = db.getEngine()
 app.secret_key = 'BROADWAY_SECRET_KEY'
-
-# data below is for test purpose and is related to result() func
-max_score = 100
-test_name = "Python Challenge"
-students = [
-    {"name": "Sandrine", "score": 100},
-    {"name": "Gergeley", "score": 87},
-    {"name": "Frieda", "score": 92},
-    {"name": "Fritz", "score": 40},
-    {"name": "Sirius", "score": 75},
-]
 
 
 @app.route('/')
@@ -304,18 +292,6 @@ def db():
     cursor.close()
     context = dict(users=users)
     return render_template("random/users.html", **context)
-
-
-# test purpose function
-@app.route("/results")
-def result():
-    context = {
-        "title": "Results",
-        "students": students,
-        "test_name": test_name,
-        "max_score": max_score,
-    }
-    return render_template("random/results.html", **context)
 
 
 @app.before_request
