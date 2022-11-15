@@ -1,7 +1,7 @@
 # Broadway-ticket-system
 It's the project for Columbia W4111 Introduction to Database
 
-Team: Yaochen Shen Yijia Wang
+Team: Yaochen Shen, Yijia Wang
 
 URL: http://34.23.89.191:8111/
 
